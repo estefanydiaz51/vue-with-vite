@@ -1,26 +1,72 @@
 <template>
-  <div>
-      <h1>Login</h1>
-      <form @submit.prevent="handleSubmit">
-        <input v-model="email" type="email"  placeholder="Ingrese email">
-        <input v-model="password" type="password"  placeholder="Ingrese contraseña">
-        <button type="submit" :disabled="userStore.loadingUser">Iniciar sesión</button>
-      </form>
-  </div>
+  <a-row>
+      <a-col :xs="{ span: 24 }" :sm="{ span: 12, offset: 6}"> 
+        <h1>Login</h1>
+        <a-form
+          name="basicLogin"
+          autocomplete="off"
+          layout="vertical"
+          :model="formState"
+          @finish="onFinish"
+          @finishFailed="onFinishFailed"
+        >
+          <a-form-item
+            name="email"
+            label="Ingresa tu correo"
+            :rules="{ 
+              required: true, 
+              whitespace: true,
+              type: email,
+              message: 'Ingresa un correo válido'
+            }"
+          >
+            <a-input 
+              v-model:value="formState.email" 
+            ></a-input>
+          </a-form-item>
+          <a-form-item
+            name="password"
+            label="Ingrese contraseña"
+            :rules="{ 
+              required: true,
+              min: 6,
+              whitespace: true,
+              message: 'Ingresa una contraseña con minimo 6 caracteres'
+            }"
+          >
+            <a-input-password v-model:value="formState.password"></a-input-password>
+          </a-form-item>
+          <a-form-item>
+            <a-button
+              type="primary" 
+              html-type="submit"
+              :disabled="userStore.loadingUser"
+            >Ingresar</a-button>
+          </a-form-item>
+        </a-form>
+      </a-col>
+  </a-row>
 </template>
 
 <script setup>
-import { ref } from "vue-demi";
+import { reactive, ref } from "vue-demi";
 import { useUserStore } from '../stores/user';
 
   const userStore = useUserStore();
-  const email = ref('test1@udenar.edu.co');
-  const password = ref('');
-  const handleSubmit = async() => {
-    if ( !email.value || password.value.length < 6){
-      return alert('Llena los campos');
-    }
-    await userStore.loginUser( email.value, password.value );
+  // const email = ref('test1@udenar.edu.co');
+  // const password = ref('');
+
+  const formState = reactive({
+    email: 'test1@udenar.edu.co',
+    password: 123456
+  })
+  const onFinish = async( values ) => {
+    console.log( 'success', values );
+    // await userStore.loginUser( formState.email , formState.password );
+  }
+
+  const onFinishFailed = ( errorInfo ) => {
+    console.log( errorInfo, 'error' )
   }
 </script>
 
