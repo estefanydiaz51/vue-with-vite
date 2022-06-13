@@ -30,7 +30,8 @@ export const useUserStore =  defineStore('userStore', {
                 router.push('/')
 
             }catch ( error ) {
-                console.log( error );
+                console.log( error.code );
+                return error.code;
             } finally {
                 this.loadingUser = false;
             }
@@ -45,7 +46,8 @@ export const useUserStore =  defineStore('userStore', {
                 }
                 router.push('/');
             } catch( error ) {
-                console.log( error );
+                console.log( error.code );
+                return error.code;
             } finally {
                 this.loadingUser = false; 
             }
