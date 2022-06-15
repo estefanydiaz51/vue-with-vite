@@ -2,6 +2,7 @@ import { createRouter, createWebHistory } from 'vue-router';
 import Home from './views/Home.vue';
 import Editar from './views/Editar.vue';
 import Login from './views/Login.vue';
+import Perfil from './views/Perfil.vue';
 import Register from './views/Register.vue';
 import { useUserStore } from './stores/user'
 
@@ -23,6 +24,12 @@ const routes = [
         component: Home,
         name: 'home',
         beforeEnter: requireAuth
+    },
+    {
+        path: '/perfil',
+        component: Perfil,
+        beforeEnter: requireAuth,
+        name: 'perfil'
     },
     {
         path: '/editar/:id',
