@@ -88,19 +88,12 @@ const beforeUpload = ( file ) => {
 
 const onFinish = async () => {
     console.log( fileList.value[0] );
-    const error = await userStore.updateUser( userStore.userData.displayName );
+    const error = await userStore.updateUser( userStore.userData.displayName, fileList.value[0] );
     // fileList.value.forEach( file => {
     //     console.log( file );
     // })
-    if ( fileList.value[0] ) {
-        const error = await userStore.updateImg( fileList.value[0] );
-        if ( error ) {
-            return message.error( 'Problemas al subir la imagen, intentelo más tarde' );
-        }
-        message.success( 'Se actualizo tu imagen' );
-    }
     if ( !error ) {
-        return message.success( 'Se actualizo tu información de perfil' );
+        return message.success( 'Se actualizó tu información de perfil' );
     }
     message.error( 'Ocurrio un error al actualizar el perfil' );
 }
